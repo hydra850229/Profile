@@ -1,9 +1,10 @@
 import sys
 import os
 import subprocess
+import platform
 from PySide6.QtWidgets import (
     QApplication, QWidget, QPushButton, QLabel, QFileDialog,
-    QVBoxLayout, QHBoxLayout, QListWidget, QMessageBox, QMenu
+    QVBoxLayout, QHBoxLayout, QListWidget, QMessageBox, QMenu, QProgressBar
 )
 from PySide6.QtCore import Qt, QPoint
 
@@ -19,8 +20,13 @@ def convert_mov_to_mp4(input_path, output_path):
         output_path
     ]
 
+    startupinfo = None
+    if platform.system() == "Windows":
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
     try:
-        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, startupinfo=startupinfo)
         return os.path.exists(output_path) and os.path.getsize(output_path) > 1024
     except subprocess.CalledProcessError:
         return False
@@ -42,8 +48,8 @@ def convert_heic_to_jpeg(input_path, output_path):
 class ConverterApp(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("簡單轉檔器")
-        self.setFixedSize(500, 400)
+        self.setWindowTitle("轉碼器")
+        self.setFixedSize(500, 440)
 
         self.file_list = []
         self.output_folder = ""
@@ -74,6 +80,12 @@ class ConverterApp(QWidget):
         hlayout.addWidget(self.label_output)
         layout.addLayout(hlayout)
 
+        # 進度條
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setValue(0)
+        self.progress_bar.setTextVisible(True)
+        layout.addWidget(self.progress_bar)
+
         # 開始轉檔
         btn_convert = QPushButton("開始轉檔")
         btn_convert.clicked.connect(self.start_conversion)
@@ -99,7 +111,11 @@ class ConverterApp(QWidget):
             return
 
         success = 0
-        for file_path in self.file_list:
+        total = len(self.file_list)
+        self.progress_bar.setMaximum(total)
+        self.progress_bar.setValue(0)
+
+        for index, file_path in enumerate(self.file_list, start=1):
             ext = os.path.splitext(file_path)[1].lower()
             filename = os.path.splitext(os.path.basename(file_path))[0]
 
@@ -111,6 +127,8 @@ class ConverterApp(QWidget):
                 output_path = os.path.join(self.output_folder, filename + ".jpeg")
                 if convert_heic_to_jpeg(file_path, output_path):
                     success += 1
+
+            self.progress_bar.setValue(index)
 
         QMessageBox.information(self, "完成", f"已成功轉檔 {success} 個檔案！")
 
