@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+##<<<<<<< HEAD
 import streamlit as st
 import requests
 from datetime import date
@@ -115,7 +115,6 @@ if st.button("✅ 批次寫入 Notion"):
         st.success(f"✅ 成功 {ok} 筆，❌ 失敗 {fail} 筆")
     else:
         st.warning("請輸入至少一筆記帳資料")
-=======
 import streamlit as st
 import requests
 from datetime import date
@@ -232,4 +231,4 @@ if st.button("✅ 批次寫入 Notion"):
         st.success(f"✅ 成功 {ok} 筆，❌ 失敗 {fail} 筆")
     else:
         st.warning("請輸入至少一筆記帳資料")
->>>>>>> 839c1a9b6f5aacad3fee26a184ae3f54f247c039
+##>>>>>>> 839c1a9b6f5aacad3fee26a184ae3f54f247c039
