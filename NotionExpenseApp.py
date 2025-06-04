@@ -69,8 +69,10 @@ def send_expense(name, amount, category_name, category_map):
     return res.status_code == 200
 
 # --- UI ---
-st.title("📥 寫入小幫手")
-st.text_area("請輸入資料：", value=st.session_state.input_area, height=150, key="input_area")
+st.title("🚀 超級寫入器")
+st.markdown("💵 記帳區")
+st.markdown("輸入範例：\n早餐,80,飲食")
+st.text_area("請輸入記帳資料：", value=st.session_state.input_area, height=150, key="input_area")
 
 # 分類 map
 category_map = fetch_category_map()
@@ -78,7 +80,7 @@ category_map = fetch_category_map()
 # 動作按鈕區域
 col1, col2 = st.columns([1, 1])
 with col1:
-    if st.button("✅ 寫入資料"):
+    if st.button("✅ 一鍵寫入"):
         entries = st.session_state.input_area.strip().splitlines()
         success, fail = 0, 0
         for line in entries:
@@ -94,6 +96,6 @@ with col1:
         st.success(f"✅ 成功 {success} 筆，❌ 失敗 {fail} 筆")
 
 with col2:
-    if st.button("🧹 清除重填"):
+    if st.button("✨ 清除重填"):
         st.session_state.clear_input = True
         st.rerun()
