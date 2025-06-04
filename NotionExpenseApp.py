@@ -69,9 +69,8 @@ def send_expense(name, amount, category_name, category_map):
     return res.status_code == 200
 
 # --- UI ---
-st.title("📥 批次記帳小幫手")
-st.markdown("輸入格式：每行一筆資料，如：\n早餐,80,飲食")
-st.text_area("請貼上多筆記帳資料：", value=st.session_state.input_area, height=150, key="input_area")
+st.title("📥 寫入小幫手")
+st.text_area("請輸入資料：", value=st.session_state.input_area, height=150, key="input_area")
 
 # 分類 map
 category_map = fetch_category_map()
@@ -79,7 +78,7 @@ category_map = fetch_category_map()
 # 動作按鈕區域
 col1, col2 = st.columns([1, 1])
 with col1:
-    if st.button("✅ 寫入 Notion"):
+    if st.button("✅ 寫入資料"):
         entries = st.session_state.input_area.strip().splitlines()
         success, fail = 0, 0
         for line in entries:
