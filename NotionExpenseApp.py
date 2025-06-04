@@ -70,7 +70,7 @@ def send_expense(name, amount, category_name, category_map):
 
 # --- UI ---
 st.title('🚀 超級寫入器')
-st.markdown("💵 記帳區")
+st.markdown('### 💵 記帳區')
 st.markdown("輸入範例：\n早餐,80,飲食")
 st.text_area("請輸入記帳資料：", value=st.session_state.input_area, height=150, key="input_area")
 
@@ -80,7 +80,7 @@ category_map = fetch_category_map()
 # 動作按鈕區域
 col1, col2 = st.columns(2)
 with col1:
-    if st.button("✅ 一鍵寫入"):
+    if st.button("✅ 一鍵寫入", use_container_width=True):
         entries = st.session_state.input_area.strip().splitlines()
         success, fail = 0, 0
         for line in entries:
@@ -96,7 +96,7 @@ with col1:
         st.success(f"✅ 成功 {success} 筆，❌ 失敗 {fail} 筆")
 
 with col2:
-    if st.button("✨ 清除重填"):
+    if st.button("✨ 清除重填", use_container_width=True):
         st.session_state.clear_input = True
         st.rerun()
 
