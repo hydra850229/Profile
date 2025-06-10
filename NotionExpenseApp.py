@@ -99,4 +99,4 @@ with col2:
         st.session_state.clear_input = True
         st.rerun()
 
-st.divider()
+##st.divider()
