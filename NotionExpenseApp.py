@@ -71,7 +71,7 @@ def send_expense(name, amount, category_name, category_map):
 # --- UI ---
 st.title('🚀 超級寫入器')
 st.markdown('### 💵 記帳區')
-st.text_area("請輸入記帳資料：", value=st.session_state.input_area, height=150, key="input_area",placeholder="輸入格式：早餐,80,飲食")
+st.text_area("請輸入記帳資料：", value=st.session_state.input_area, height=150, key="input_area",placeholder="飲食, 交通, 醫療, 生活, 購物, 學習, 娛樂, 意外, 存款")
 
 # 分類 map
 category_map = fetch_category_map()
